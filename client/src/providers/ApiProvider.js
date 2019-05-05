@@ -1,7 +1,5 @@
 import React from 'react'
 
-import auth_actions from '../actions/auth'
-
 const ApiContext = React.createContext()
 export const ApiConsumer = ApiContext.Consumer
 
@@ -17,8 +15,7 @@ class ApiProvider extends React.Component {
             name: '',
             username: '',
             phone_number: ''
-        },
-        handleLogin: (email, password) => auth_actions.handleLogin(email, password)
+        }
     }
 
     render () {

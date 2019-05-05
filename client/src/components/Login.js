@@ -3,6 +3,8 @@ import { withRouter } from 'react-router'
 
 import { ApiConsumer } from '../providers/ApiProvider'
 
+import auth_actions from '../actions/auth'
+
 import '../stylesheets/login.css'
 
 
@@ -23,7 +25,7 @@ class Login extends React.Component {
 
     handleLoginClick = async () => {
         const { email, password } = this.state 
-        const { success, reason } = await this.props.handleLogin(email, password)
+        const { success, reason } = await auth_actions.handleLogin(email, password)
         if (success)
             this.props.history.push('/dashboard')
         else
