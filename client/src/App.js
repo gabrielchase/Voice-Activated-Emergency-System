@@ -6,6 +6,7 @@ import ApiProvider from './providers/ApiProvider'
 
 import Login from './components/Login'
 import Dashboard from './components/Dashboard'
+import ProtectedRoute from './components/ProtectedRoute'
 
 import './App.css'
 
@@ -17,7 +18,7 @@ function App() {
             <Router history={history}>
                 <Switch>
                     <Route path="/login" component={Login} />
-                    <Route path="/dashboard" component={Dashboard} />
+                    <ProtectedRoute path="/dashboard" component={Dashboard} />
                 </Switch>
             </Router>
         </ApiProvider>
