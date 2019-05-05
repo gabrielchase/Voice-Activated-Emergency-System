@@ -13,5 +13,12 @@ module.exports = {
             reason: err.message
         }
         res.json(obj)
-    }
+    },
+    emailLoginAuthJson: (token, user) => {
+        delete user.password
+        return {
+            token,
+            user
+        }
+    },
 }

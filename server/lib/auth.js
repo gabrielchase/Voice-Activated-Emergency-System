@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+
 const { SALT_ROUNDS } = require('../config/config')
 
 module.exports = {
