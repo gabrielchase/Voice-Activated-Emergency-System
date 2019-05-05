@@ -14,7 +14,7 @@ class ApiProvider extends React.Component {
             password: ''
         },
         authenticated: false, 
-        current_user_creds: {
+        current_user: {
             email: '',
             name: '',
             username: '',
@@ -28,7 +28,10 @@ class ApiProvider extends React.Component {
         if (res.data.success) {
             localStorage.setItem('user', res.data.values.user)
             localStorage.setItem('token', res.data.values.token)
-            await this.setState({ authenticated: true })
+            await this.setState({ 
+                authenticated: true,
+                current_user: res.data.values.user
+            })
         }
         return res
     }
