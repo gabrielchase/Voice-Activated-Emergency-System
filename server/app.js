@@ -24,6 +24,7 @@ app.get('/api/sanity', (_, res) => {
 })
 
 require('./routes/auth')(app)
+require('./routes/emergency')(app)
 
 app.listen(config.PORT, () => {
     console.log(`Server running on ${config.PORT}`)
