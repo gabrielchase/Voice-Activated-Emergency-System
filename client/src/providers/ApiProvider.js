@@ -22,7 +22,7 @@ class ApiProvider extends React.Component {
     }
 
     handleLogin = async (email, password) => {
-        const res = await auth_actions.handleLogin(email, password)
+        const res = await axios.post(`${API_URL}/auth/login`, { email, password })
         if (res.data.success) {
             localStorage.setItem('user', res.data.values.user)
             localStorage.setItem('token', res.data.values.token)
