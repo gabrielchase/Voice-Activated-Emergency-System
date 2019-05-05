@@ -18,7 +18,8 @@ function App() {
             <Router history={history}>
                 <Switch>
                     <Route path="/login" component={Login} />
-                    <ProtectedRoute path="/dashboard" component={Dashboard} />
+                    <Route path="/dashboard" component={Dashboard} />
+                    {/* <ProtectedRoute path="/dashboard" component={Dashboard} /> */}
                 </Switch>
             </Router>
         </ApiProvider>
