@@ -23,6 +23,8 @@ app.get('/api/sanity', (_, res) => {
     res.json({ sane: true })
 })
 
+require('./routes/auth')(app)
+
 app.listen(config.PORT, () => {
     console.log(`Server running on ${config.PORT}`)
 })
