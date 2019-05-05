@@ -1,6 +1,8 @@
 import React from 'react'
+import axios from 'axios'
 
-import auth_actions from '../actions/auth'
+// import auth_actions from '../actions/auth'
+import { API_URL } from '../config/config'
 
 const ApiContext = React.createContext()
 export const ApiConsumer = ApiContext.Consumer
