@@ -14,11 +14,10 @@ module.exports = {
         }
         res.json(obj)
     },
-    emailLoginAuthJson: (token, user) => {
-        delete user.password
+    emailLoginAuthJson: (token, { _id, email, name, username, phone_number, created_on }) => {
         return {
             token,
-            user
+            user: { _id, email, name, username, phone_number, created_on }
         }
     },
 }
