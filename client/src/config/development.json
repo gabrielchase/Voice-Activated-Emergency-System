@@ -1,4 +1,5 @@
 {
+    "ROOT_URL": "http://localhost:3005/",
     "API_URL": "http://localhost:3005/api",
     "GOOGLE_API_KEY": "AIzaSyAlzpT3tIjLCQMJR3rQaNJ4fedU8u3Brsk"
 }
