@@ -3,10 +3,11 @@ const Emergency = require('../models/Emergency')
 const { success, fail } = require('../lib/json_wrappers')
 const { checkJWTUser } = require('../middleware/jwt')
 
-module.exports = (app) => {
+module.exports = (app, io) => {
     app.post('/api/emergency', async (req, res) => {
         try {
             const new_emergency = await Emergency.create(req.body)
+            await io.emit('emergency', new_emergency)
             success(res, new_emergency)
         } catch (err) {
             fail(res, err)
