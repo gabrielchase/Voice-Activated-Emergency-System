@@ -12,18 +12,20 @@ import './App.css'
 
 let history = createBrowserHistory()
 
-function App() {
-    return (
-        <ApiProvider>
-            <Router history={history}>
-                <Switch>
-                    <Route path="/login" component={Login} />
-                    <Route path="/dashboard" component={Dashboard} />
-                    {/* <ProtectedRoute path="/dashboard" component={Dashboard} /> */}
-                </Switch>
-            </Router>
-        </ApiProvider>
-    )
+class App extends React.Component {
+    render () {
+        return (
+            <ApiProvider>
+                <Router history={history}>
+                    <Switch>
+                        <Route path="/login" component={Login} />
+                        <Route path="/dashboard" component={Dashboard} />
+                        {/* <ProtectedRoute path="/dashboard" component={Dashboard} /> */}
+                    </Switch>
+                </Router>
+            </ApiProvider>
+        )
+    }
 }
 
 export default App
