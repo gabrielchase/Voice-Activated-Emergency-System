@@ -1,8 +1,8 @@
 import React from 'react'
 import axios from 'axios'
+import io from 'socket.io-client'
 
-// import auth_actions from '../actions/auth'
-import { API_URL } from '../config/config'
+import { ROOT_URL, API_URL } from '../config/config'
 
 const ApiContext = React.createContext()
 export const ApiConsumer = ApiContext.Consumer
@@ -20,7 +20,15 @@ class ApiProvider extends React.Component {
             username: '',
             phone_number: ''
         },
+        socket: {},
+
         handleLogin: (email, password) => this.handleLogin(email, password)
+    }
+
+    componentDidMount = async () => {
+        const socket = await io(ROOT_URL)
+        await this.setState({ socket })
+        socket.emit('hello', 'moto')
     }
 
     handleLogin = async (email, password) => {
