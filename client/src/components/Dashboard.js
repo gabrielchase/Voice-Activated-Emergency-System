@@ -1,8 +1,10 @@
 import React from 'react'
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
 import { ApiConsumer } from '../providers/ApiProvider'
+import io from 'socket.io-client'
 
-import { GOOGLE_API_KEY } from '../config/config'
+import { ROOT_URL, GOOGLE_API_KEY } from '../config/config'
+
 
 class Dashboard extends React.Component {
     state = {
@@ -10,12 +12,19 @@ class Dashboard extends React.Component {
             lat: 14.6538,
             lng: 121.0685
         },
-        zoom: 16
+        zoom: 16,
+        markers: []
+    }
+
+    addNewEmergency = async (data) => {
+        await this.setState({
+            markers: [ ...this.state.markers, <Marker position={{lat: data.latitude, lng: data.longitude }} /> ]
+        })
     }
 
     render() {
-        const { current_user } = this.props
-        console.log('curent_user: ', current_user)
+        const { current_user, socket } = this.props
+        socket.on('emergency', (data) => this.addNewEmergency(data))
         return (
             <div>
                 <p>Dashboard Page</p>
@@ -25,18 +34,21 @@ class Dashboard extends React.Component {
                     google={this.props.google} 
                     zoom={this.state.zoom} 
                     initialCenter={this.state.center}
-                />
+                >
+                    {this.state.markers}
+                </Map>
             </div>
         )
     }
 }
 
 const ConnectedDashboard = props => (
-    <ApiConsumer >
-        {({ current_user }) => (
+    <ApiConsumer>
+        {({ current_user, socket }) => (
             <Dashboard 
                 {...props}
                 current_user={current_user}
+                socket={socket}
             />
         )}
     </ApiConsumer>
