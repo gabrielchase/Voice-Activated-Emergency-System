@@ -1,4 +1,5 @@
 const env = process.env.NODE_ENV || 'development'
+console.log('ENV: ', process.env.NODE_ENV, env)
 const config_file = require(`./${env}.json`)
 console.log('Config file: ', config_file)
 
