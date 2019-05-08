@@ -5,6 +5,7 @@ import { createBrowserHistory } from 'history'
 import ApiProvider from './providers/ApiProvider'
 
 import Login from './components/Login'
+import IndexPage from './components/IndexPage'
 import Dashboard from './components/Dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -18,6 +19,7 @@ class App extends React.Component {
             <ApiProvider>
                 <Router history={history}>
                     <Switch>
+                        <Route path="/" component={IndexPage} />
                         <Route path="/login" component={Login} />
                         <Route path="/dashboard" component={Dashboard} />
                         {/* <ProtectedRoute path="/dashboard" component={Dashboard} /> */}
