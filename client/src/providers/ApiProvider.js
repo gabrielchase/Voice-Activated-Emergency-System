@@ -26,6 +26,8 @@ class ApiProvider extends React.Component {
     }
 
     componentDidMount = async () => {
+        const res = await axios.get(`${API_URL}/sanity`)
+        console.log('Pinging server: ', res.data)
         const socket = await io(ROOT_URL)
         await this.setState({ socket })
         socket.emit('hello', 'moto')
