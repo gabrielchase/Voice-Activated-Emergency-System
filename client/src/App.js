@@ -19,10 +19,10 @@ class App extends React.Component {
             <ApiProvider>
                 <Router history={history}>
                     <Switch>
-                        <Route path="/" component={IndexPage} />
                         <Route path="/login" component={Login} />
                         <Route path="/dashboard" component={Dashboard} />
                         {/* <ProtectedRoute path="/dashboard" component={Dashboard} /> */}
+                        <Route path="/" component={IndexPage} />
                     </Switch>
                 </Router>
             </ApiProvider>
