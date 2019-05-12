@@ -7,6 +7,8 @@ let config = {}
 try {
     config.DB_URL = process.env.DB_URL || config_file.DB_URL || 3000
     config.PORT = process.env.PORT || config_file.PORT 
+    config.FCM_URL = process.env.FCM_URL || config_file.FCM_URL 
+    config.FCM_AUTHORIZATION_KEY = process.env.FCM_AUTHORIZATION_KEY || config_file.FCM_AUTHORIZATION_KEY 
     config.SALT_ROUNDS = process.env.SALT_ROUNDS || config_file.SALT_ROUNDS
     config.JWT_SECRET = process.env.JWT_SECRET || config_file.JWT_SECRET
     config.JWT_EXPIRATION = process.env.JWT_EXPIRATION || config_file.JWT_EXPIRATION

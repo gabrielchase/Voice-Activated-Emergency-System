@@ -1,5 +1,7 @@
 {
     "DB_URL": "mongodb://localhost:27017/vaes-dev",
+    "FCM_URL": "https://fcm.googleapis.com/fcm/send",
+    "FCM_AUTHORIZATION_KEY": "AAAAzyomoRY:APA91bF4jQ3BNwb_obLTpiuBFHNb0UEQgpshasn_8RZsAEl_odEDhDF-KmQaG1fQK0BjojmP5JrjPE24f9RhOY6yf2YPDN31hUKdxJAGuN-1-ahka8nuXlNeKLOhsSZibw8MXrF38XRl",
     "PORT": 3005,
     "SALT_ROUNDS": 10,
     "JWT_SECRET": "jwt_secret",
