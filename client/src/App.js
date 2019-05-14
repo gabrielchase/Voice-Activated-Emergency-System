@@ -9,7 +9,7 @@ import IndexPage from './components/IndexPage'
 import Dashboard from './components/Dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 
-import './App.css'
+import './fonts/gilroy.css'
 
 let history = createBrowserHistory()
 

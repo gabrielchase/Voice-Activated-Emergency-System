@@ -5,6 +5,31 @@ import io from 'socket.io-client'
 
 import { ROOT_URL, GOOGLE_API_KEY } from '../config/config'
 
+import styled from 'styled-components'
+
+const HeaderWrapper = styled.div `
+    box-shadow: 0px 5px 50px rgba(0,0,0,0.25);
+    position: absolute;
+    top: 0;
+    right: 50%;
+    z-index: 1000;
+    background: white;
+    border-radius: 0 0 50px 50px;
+    padding: 0 1.5rem 0 1.5rem;
+    transform: translateX(50%);
+
+    h1 {
+        padding: 1rem;
+        margin: 0;
+        text-align: center;
+    }
+    
+    p {
+        padding: 0rem 0 1rem 1rem;
+        margin: 0;
+        text-align: center;
+    }
+`;
 
 class Dashboard extends React.Component {
     state = {
@@ -18,7 +43,7 @@ class Dashboard extends React.Component {
 
     addNewEmergency = async (data) => {
         await this.setState({
-            markers: [ ...this.state.markers, <Marker position={{lat: data.latitude, lng: data.longitude }} /> ]
+            markers: [ ...this.state.markers, <Marker position={{lat:  data.latitude, lng: data.longitude }} /> ]
         })
     }
 
@@ -27,13 +52,19 @@ class Dashboard extends React.Component {
         socket.on('emergency', (data) => this.addNewEmergency(data))
         return (
             <div>
-                <p>Dashboard Page</p>
-                <p>Good day {current_user.name}</p>
+                <HeaderWrapper>
+                    <h1>Watchmen Dashboard </h1>
+                    <p>Good day {current_user.name}</p>
+                </HeaderWrapper>
                 <Map 
                     className={'google-map'}
                     google={this.props.google} 
                     zoom={this.state.zoom} 
                     initialCenter={this.state.center}
+                    mapTypeControl = {true}
+                    mapTypeControlOptions={{
+                        position: this.props.google.maps.ControlPosition.BOTTOM_LEFT
+                    }}
                 >
                     {this.state.markers}
                 </Map>
