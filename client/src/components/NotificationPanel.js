@@ -32,8 +32,11 @@ export default class NotificationPanel extends React.Component {
         this.geocoder = new this.props.google.maps.Geocoder();
     }
 
-    componentDidMount() {
-        this.fetchLocation();
+    async componentDidMount() {
+        console.log('props: ', this.props)
+        // if (!this.props.from_pi)
+        await this.fetchLocation()
+      
     }
 
     componentDidUpdate() {
@@ -49,7 +52,12 @@ export default class NotificationPanel extends React.Component {
                     console.error(`Failed to geocode location at (${this.props.lat}, ${this.props.lng}).`);
                     this.setState(prevState => ({ ...prevState, loading: false, location: `${this.props.lat}, ${this.props.long}` }));
                 } else {
-                    this.setState(prevState => ({ ...prevState, loading: false, location: `${locations[0].address_components[0].short_name}, ${locations[0].address_components[1].short_name}, ${locations[0].address_components[2].short_name}` }));
+                    console.log(this.props.m)
+                    if (this.props.from_pi) {
+                        this.setState(prevState => ({ ...prevState, loading: false, latlng: `${this.props.m.lat},${this.props.m.lng}`, location: `${this.props.m.location_name}` }));
+                    }
+                    else 
+                        this.setState(prevState => ({ ...prevState, loading: false, location: `${locations[0].address_components[0].short_name}, ${locations[0].address_components[1].short_name}, ${locations[0].address_components[2].short_name}` }));
                 }
             }
         );
