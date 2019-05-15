@@ -181,13 +181,13 @@ class Dashboard extends React.Component {
                             this.state.markers.map(m => <Marker position={{lat: m.lat, lng: m.lng }} />) 
                             :
                             <div></div>                                
-                        }
-                        { 
-                            this.state.mode === 'HISTORICAL' ? 
-                                this.state.historical_markers.map(m => <NotificationPanel google={this.props.google} lat={m.lat} lng={m.lng} time={m.timestamp} m={m} from_pi={m.from_pi} />) 
-                                : 
-                                <div></div>                                
-                        }
+                    }
+                    { 
+                        this.state.mode === 'HISTORICAL' ? 
+                            this.state.historical_markers.map(m => <Marker position={{lat: m.latitude, lng: m.longitude }} />) 
+                            : 
+                            <div></div>                                
+                    }
                 </Map>
             </>
         )
