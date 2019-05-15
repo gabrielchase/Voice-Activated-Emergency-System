@@ -1,10 +1,12 @@
 import React from 'react'
+import axios from 'axios'
+import styled from 'styled-components'
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
+
 import { ApiConsumer } from '../providers/ApiProvider'
 import NotificationPanel from './NotificationPanel'
-import { GOOGLE_API_KEY } from '../config/config'
+import { GOOGLE_API_KEY, API_URL } from '../config/config'
 
-import styled from 'styled-components'
 
 const ControlsWrapper = styled.div`
     box-shadow: 0px 5px 50px rgba(0,0,0,0.25);
@@ -92,7 +94,16 @@ class Dashboard extends React.Component {
             { lat: 14.6544438, lng: 121.0735988, timestamp: new Date() },
             { lat: 14.6574438, lng: 121.0715988, timestamp: new Date() },
             { lat: 14.6604438, lng: 121.0695988, timestamp: new Date() }
-        ]
+        ],
+        historical_markers: [],
+        mode: 'RECENT'
+    }
+
+    getHistoricalMarkers = async (data) => {
+        const res = await axios.get(`${API_URL}/emergencies`)
+        console.log('historical markers: ', res.data)
+        if (res.data.success)
+            await this.setState({ mode: 'HISTORICAL', historical_markers: res.data.values })
     }
 
     addNewEmergency = async (data) => {
@@ -122,18 +133,31 @@ class Dashboard extends React.Component {
                     <HeaderWrapper>
                         <h1>Watchmen Dashboard</h1>
                         <p>Good day {current_user.name}</p>
+                        {this.state.mode}
                     </HeaderWrapper>
 
                     <NotificationsWrapper>
                         <div className="tabs">
-                            <a href="javascript:void(0)" className="active tab">Recent Notifications</a>
-                            <a href="javascript:void(0)" className="tab">Archive</a>
+                            <a onClick={() => this.setState({ mode: 'RECENT'})} className="tab">Recent Notifications</a>
+                            <a onClick={() => this.getHistoricalMarkers() } className="tab">Archive</a>
                             <div className="controls">
                                 <a onClick={() => this.clearMarkers()} className="clear">Clear</a>
                             </div>
                         </div>
 
-                        { this.state.markers.map(m => <NotificationPanel google={this.props.google} lat={m.lat} lng={m.lng} time={m.timestamp} m={m} from_pi={m.from_pi} />) }
+                        
+                        { 
+                            this.state.mode === 'RECENT' ? 
+                                this.state.markers.map(m => <NotificationPanel google={this.props.google} lat={m.lat} lng={m.lng} time={m.timestamp} m={m} from_pi={m.from_pi} />) 
+                                : 
+                                <div></div>                                
+                        }
+                        { 
+                            this.state.mode === 'HISTORICAL' ? 
+                                this.state.historical_markers.map(m => <NotificationPanel google={this.props.google} lat={m.lat} lng={m.lng} time={m.timestamp} m={m} from_pi={m.from_pi} />) 
+                                : 
+                                <div></div>                                
+                        }
                     </NotificationsWrapper>
                 </ControlsWrapper>
 
@@ -152,7 +176,18 @@ class Dashboard extends React.Component {
                         style: this.props.google.maps.MapTypeControlStyle.HORIZONTAL_BAR
                     }}
                 >
-                    { this.state.markers.map(m => <Marker position={{lat: m.lat, lng: m.lng }} />) }
+                    { 
+                        this.state.mode === 'RECENT' ? 
+                            this.state.markers.map(m => <Marker position={{lat: m.lat, lng: m.lng }} />) 
+                            :
+                            <div></div>                                
+                        }
+                        { 
+                            this.state.mode === 'HISTORICAL' ? 
+                                this.state.historical_markers.map(m => <NotificationPanel google={this.props.google} lat={m.lat} lng={m.lng} time={m.timestamp} m={m} from_pi={m.from_pi} />) 
+                                : 
+                                <div></div>                                
+                        }
                 </Map>
             </>
         )

@@ -17,6 +17,15 @@ module.exports = (app, io) => {
         }
     })
 
+    app.get('/api/emergencies', async (req, res) => {
+        try {
+            const emergencies = await Emergency.find({}).sort('-created_on')
+            success(res, emergencies)
+        } catch (err) {
+            fail(res, err)
+        }
+    })
+
     app.put('/api/emergency/:emergency_id/seen', checkJWTUser, async (req, res) => {
         const { emergency_id } = req.params
         try {

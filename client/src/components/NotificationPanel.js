@@ -24,7 +24,7 @@ export default class NotificationPanel extends React.Component {
     state = {
         loading: true,
         latlng: null,
-        location: {}
+        location: ''
     };
 
     constructor(props) {
@@ -44,23 +44,28 @@ export default class NotificationPanel extends React.Component {
     }
 
     fetchLocation = () => {
-        this.setState(prevState => ({ ...prevState, loading: true, latlng: `${this.props.lat},${this.props.lng}` }));
-        this.geocoder.geocode(
-            { location: new this.props.google.maps.LatLng(this.props.lat, this.props.lng) },
-            (locations, status) => {
-                if (status !== 'OK') {
-                    console.error(`Failed to geocode location at (${this.props.lat}, ${this.props.lng}).`);
-                    this.setState(prevState => ({ ...prevState, loading: false, location: `${this.props.lat}, ${this.props.long}` }));
-                } else {
-                    console.log(this.props.m)
-                    if (this.props.from_pi) {
-                        this.setState(prevState => ({ ...prevState, loading: false, latlng: `${this.props.m.lat},${this.props.m.lng}`, location: `${this.props.m.location_name}` }));
+        if (this.props.m.latitude && this.props.m.longitude) {
+            console.log('hello hello')
+            this.setState(prevState => ({ ...prevState, loading: false, latlng: `${this.props.m.latitude},${this.props.m.longitude}`, location: `${this.props.m.location_name}` }));
+        } else {
+            this.geocoder.geocode(
+                { location: new this.props.google.maps.LatLng(this.props.lat, this.props.lng) },
+                (locations, status) => {
+                    if (status !== 'OK') {
+                        console.error(`Failed to geocode location at (${this.props.lat}, ${this.props.lng}).`);
+                        this.setState(prevState => ({ ...prevState, loading: false, location: `${this.props.lat}, ${this.props.long}` }));
+                    } else {
+                        console.log(this.props.m)
+                        if (this.props.from_pi) {
+                            this.setState(prevState => ({ ...prevState, loading: false, latlng: `${this.props.m.lat},${this.props.m.lng}`, location: `${this.props.m.location_name}` }));
+                        }
+                        else 
+                            this.setState(prevState => ({ ...prevState, loading: false, location: `${locations[0].address_components[0].short_name}, ${locations[0].address_components[1].short_name}, ${locations[0].address_components[2].short_name}` }));
                     }
-                    else 
-                        this.setState(prevState => ({ ...prevState, loading: false, location: `${locations[0].address_components[0].short_name}, ${locations[0].address_components[1].short_name}, ${locations[0].address_components[2].short_name}` }));
                 }
-            }
-        );
+            );
+        }
+        this.setState(prevState => ({ ...prevState, loading: true, latlng: `${this.props.lat},${this.props.lng}` }));
     }
 
     render() {
@@ -68,10 +73,10 @@ export default class NotificationPanel extends React.Component {
             <Wrapper>
                 <div className="title">
                     {
-                        this.state.loading ? 'loading...' : this.state.location
+                        this.state.location
                     }
                 </div>
-                <div className="subtitle">{moment(this.props.time).fromNow()}</div>
+                <div className="subtitle">{this.props.m.created_on ? this.props.m.created_on : moment(this.props.time).fromNow()}</div>
             </Wrapper>
         );
     }
