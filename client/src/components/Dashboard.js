@@ -1,9 +1,8 @@
 import React from 'react'
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
 import { ApiConsumer } from '../providers/ApiProvider'
-import io from 'socket.io-client'
 import NotificationPanel from './NotificationPanel'
-import { ROOT_URL, GOOGLE_API_KEY } from '../config/config'
+import { GOOGLE_API_KEY } from '../config/config'
 
 import styled from 'styled-components'
 
@@ -97,13 +96,22 @@ class Dashboard extends React.Component {
     }
 
     addNewEmergency = async (data) => {
+        console.log('data: ', data)
         await this.setState({
-            markers: [ ...this.state.markers, { lat: data.latitude, lng: data.longitude, timestamp: new Date() } ]
+            markers: [ ...this.state.markers, { from_pi: true, lat: data.latitude, lng: data.longitude, timestamp: new Date(), location_name: data.location_name } ]
+        })
+    }
+
+    clearMarkers = async () => {
+        console.log('clearmerrs')
+        await this.setState({ 
+            markers: []
         })
     }
 
     render() {
         const { current_user, socket } = this.props
+        // console.log('socket: ', socket)
         socket.on('emergency', (data) => this.addNewEmergency(data))
 
         console.log(this.props.google.maps);
@@ -121,11 +129,11 @@ class Dashboard extends React.Component {
                             <a href="javascript:void(0)" className="active tab">Recent Notifications</a>
                             <a href="javascript:void(0)" className="tab">Archive</a>
                             <div className="controls">
-                                <a href="javascript:void(0)" className="clear">Clear</a>
+                                <a onClick={() => this.clearMarkers()} className="clear">Clear</a>
                             </div>
                         </div>
 
-                        { this.state.markers.map(m => <NotificationPanel google={this.props.google} lat={m.lat} lng={m.lng} time={m.timestamp} />) }
+                        { this.state.markers.map(m => <NotificationPanel google={this.props.google} lat={m.lat} lng={m.lng} time={m.timestamp} m={m} from_pi={m.from_pi} />) }
                     </NotificationsWrapper>
                 </ControlsWrapper>
 
