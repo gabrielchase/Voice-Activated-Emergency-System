@@ -4,15 +4,34 @@ import speech_recognition as sr
 import matplotlib.pyplot as plt
 import librosa as lr
 import librosa.display
-from scipy.io.wavfile import read
+
 import math 
 import statistics
+import requests
+
+from scipy.io.wavfile import read
+
+# Road near MarSci: 14.651284, 121.069138
+# Math: 14.648327, 121.071459
+
+DATA= {
+    "latitude": 14.648327,
+    "longitude": 121.071459,
+    "location_name": "Math Building"
+}
+
+def send_emergency_req(): 
+    r = requests.post('http://34.239.117.132:3005/api/emergency/', json=DATA)
+    print(r.status_code)
+    print(r.json())
+
 # from glob import glob
 
 # FILE_NAME = 'multipletest.wav'
 
 r = sr.Recognizer()
 mic = sr.Microphone()
+send_emergency = False
 
 # audio_file = sr.AudioFile(FILE_NAME)
 # glob_file = glob(FILE_NAME)
@@ -62,8 +81,11 @@ with mic as source:
 
     print('time: ', time)
 
-    for i in range (0, len(time), 500):
+    for i in range (0, len(time), 1000):
         difference = 2*abs(y[i])
+        if difference >=1 and 'help' in text: 
+            print(time[i], ': ', y[i])
+            send_emergency = True 
         print('{}: {} - {}'.format(i, time[i], difference))
 
     fig, ax = plt.subplots()
@@ -101,6 +123,10 @@ with mic as source:
         # ax.plot(time, audio)
         # ax.set(xlabel='Time (s)', ylabel='Sound Amplitude')
     print('You said: ', text)
+    print('send_emergency: ', send_emergency)
+    if send_emergency:
+        send_emergency_req()
+
     plt.show()
     # except:
     #     print('Audio not recognized')
