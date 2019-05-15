@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "google-maps-react": "^2.0.2",
     "install": "^0.12.2",
+    "moment": "^2.24.0",
     "npm": "^6.9.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
