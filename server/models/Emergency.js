@@ -3,13 +3,14 @@ const mongoose = require('mongoose')
 let EmergencySchema = new mongoose.Schema({
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },
+    location_name: { type: String },
     seen: [mongoose.Mixed],
 
     created_on: { type: Date, default: Date.now }
 })
 
-EmergencySchema.statics.create = async function ({ latitude, longitude }) {
-    const emergency = new this({ latitude, longitude })
+EmergencySchema.statics.create = async function ({ latitude, longitude, location_name }) {
+    const emergency = new this({ latitude, longitude, location_name })
     await emergency.save()
     return emergency
 }

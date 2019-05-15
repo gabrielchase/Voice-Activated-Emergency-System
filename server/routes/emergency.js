@@ -7,6 +7,7 @@ const { sendFCM } = require('../interface/fcm')
 module.exports = (app, io) => {
     app.post('/api/emergency', async (req, res) => {
         try {
+            console.log('creating new emergency: ', req.body)
             const new_emergency = await Emergency.create(req.body)
             await io.emit('emergency', new_emergency)
             await sendFCM(new_emergency)
