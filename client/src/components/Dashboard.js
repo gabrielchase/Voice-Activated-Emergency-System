@@ -108,9 +108,13 @@ class Dashboard extends React.Component {
 
     addNewEmergency = async (data) => {
         console.log('data: ', data)
-        await this.setState({
-            markers: [ ...this.state.markers, { from_pi: true, lat: data.latitude, lng: data.longitude, timestamp: new Date(), location_name: data.location_name } ]
-        })
+        const last_emergency = this.state.markers[this.state.markers.length - 1]
+
+        if (data.location_name !== last_emergency.location_name) {
+            await this.setState({
+                markers: [ ...this.state.markers, { from_pi: true, lat: data.latitude, lng: data.longitude, timestamp: new Date(), location_name: data.location_name } ]
+            })
+        }
     }
 
     clearMarkers = async () => {
