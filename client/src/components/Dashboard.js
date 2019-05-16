@@ -133,16 +133,15 @@ class Dashboard extends React.Component {
                     <HeaderWrapper>
                         <h1>Watchmen Dashboard</h1>
                         <p>Good day {current_user.name}</p>
-                        {this.state.mode}
                     </HeaderWrapper>
 
                     <NotificationsWrapper>
                         <div className="tabs">
-                            <a onClick={() => this.setState({ mode: 'RECENT'})} className="tab">Recent Notifications</a>
-                            <a onClick={() => this.getHistoricalMarkers() } className="tab">Archive</a>
-                            <div className="controls">
+                            <a onClick={() => this.setState({ mode: 'RECENT'})} className={this.state.mode === 'RECENT'? "active tab":"tab"}>Recent Notifications</a>
+                            <a onClick={() => this.getHistoricalMarkers() } className={this.state.mode === 'HISTORICAL' ? "active tab":"tab"}>Archive</a>
+                            {this.state.mode === 'RECENT'?<div className="controls">
                                 <a onClick={() => this.clearMarkers()} className="clear">Clear</a>
-                            </div>
+                            </div>:null}
                         </div>
 
                         
